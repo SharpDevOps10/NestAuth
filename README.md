@@ -58,6 +58,30 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Set up Prisma
+
+Start by installing the Prisma CLI as a development dependency in your project:
+
+```bash
+$ npm install prisma --save-dev
+```
+
+Now create your initial Prisma setup using the init command of the Prisma CLI:
+
+```bash
+$ npx prisma init
+```
+
+In the following steps, we'll be utilizing the Prisma CLI: 
+
+```bash
+$ npx prisma
+```
+
+## Migrations 
+
+If you want to know about **Migrations**, you can follow this link - [Migrations](https://github.com/fictadvisor/fictadvisor-api/wiki/Migration)
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
