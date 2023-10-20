@@ -82,6 +82,11 @@ $ npx prisma
 
 If you want to know about **Migrations**, you can follow this link - [Migrations](https://github.com/fictadvisor/fictadvisor-api/wiki/Migration)
 
+## Merge Conflicts
+
+If you want to know about **Merge Conflicts**, you can follow this link - [Merge Conflicts](https://github.com/fictadvisor/fictadvisor-api/wiki/Merge-conflicts#how-to-resolve-merge-conflicts) 
+
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
