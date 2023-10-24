@@ -20,7 +20,9 @@ export class AuthService {
       },
     });
 
-    return await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    return tokens;
   }
 
   private hashData (data: string) {
@@ -57,6 +59,17 @@ export class AuthService {
       access_token: accessToken,
       refresh_token: refreshToken,
     };
+  }
+
+  private async updateRefreshToken (userId: number, refreshToken: string) {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRt: await this.hashData(refreshToken),
+      },
+    });
   }
 
   signinLocal () {}
