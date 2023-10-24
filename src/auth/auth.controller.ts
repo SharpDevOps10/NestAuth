@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto';
+import { Token } from './types';
 
 @Controller('auth')
 export class AuthController {
@@ -9,13 +10,13 @@ export class AuthController {
   ) {}
 
   @Post('/local/signup')
-  signupLocal (@Body() dto: AuthDTO) {
+  signupLocal (@Body() dto: AuthDTO): Promise<Token> {
     return this.authService.signupLocal(dto);
   }
 
   @Post('/local/signin')
-  signinLocal () {
-    this.authService.signinLocal();
+  signinLocal (@Body() dto: AuthDTO): Promise<Token> {
+    return this.authService.signinLocal(dto);
   }
 
   @Post('/logout')
