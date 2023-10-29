@@ -4,6 +4,7 @@ import { AuthDTO } from './dto';
 import { Token } from './types';
 import { Request } from 'express';
 import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
+import { GetCurrentUser } from '../common/decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -26,9 +27,8 @@ export class AuthController {
   @Post('/logout')
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
-  logout (@Req() req: Request) {
-    const user = req.user;
-    return this.authService.logout(user['sub']);
+  logout (@GetCurrentUser('sub') userId: number) {
+    return this.authService.logout(userId);
   }
 
   @Post('/refresh')
