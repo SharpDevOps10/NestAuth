@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from '@n
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto';
 import { Token } from './types';
-import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +24,7 @@ export class AuthController {
   }
 
   @Post('/logout')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
   logout (@Req() req: Request) {
     const user = req.user;
@@ -32,7 +32,7 @@ export class AuthController {
   }
 
   @Post('/refresh')
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   refreshTokens (@Req() req: Request) {
     const user = req.user;
