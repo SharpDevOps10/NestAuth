@@ -1,10 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
+import { PrismaService } from '../src/prisma/prisma.service';
+import { AuthDTO } from '../src/auth/dto';
+import { Token } from '../src/auth/types';
+import * as request from 'supertest';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -12,13 +16,32 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
+
+    prisma = app.get<PrismaService>(PrismaService);
+    await prisma.cleanDatabase();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  afterAll(async () => await app.close());
+
+  describe('Auth', () => {
+    const dto: AuthDTO = {
+      email: 'test@gmail.com',
+      password: 'super-secure-password',
+    };
+
+
+    it('should signup', () => {
+      return request(app.getHttpServer())
+        .post('/auth/local/signup')
+        .send(dto)
+        .expect(201)
+        .expect(({ body }: { body: Token }) => {
+          expect(body.access_token).toBeTruthy();
+          expect(body.refresh_token).toBeTruthy();
+        });
+    });
   });
+
 });
