@@ -65,5 +65,27 @@ describe('AppController (e2e)', () => {
         })
         .expect(200);
     });
+
+    it('should refresh tokens', async () => {
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true);
+        }, 1000);
+      });
+
+      return request(app.getHttpServer())
+        .post('/auth/refresh')
+        .auth(tokens.refresh_token, {
+          type: 'bearer',
+        })
+        .expect(200)
+        .expect(({ body }: { body: Token }) => {
+          expect(body.access_token).toBeTruthy();
+          expect(body.refresh_token).toBeTruthy();
+
+          expect(body.refresh_token).not.toBe(tokens.access_token);
+          expect(body.refresh_token).not.toBe(tokens.refresh_token);
+        });
+    });
   });
 });
