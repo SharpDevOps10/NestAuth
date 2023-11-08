@@ -56,6 +56,14 @@ describe('AppController (e2e)', () => {
           tokens = body;
         });
     });
-  });
 
+    it('should logout', () => {
+      return request(app.getHttpServer())
+        .post('/auth/logout')
+        .auth(tokens.access_token, {
+          type: 'bearer',
+        })
+        .expect(200);
+    });
+  });
 });
