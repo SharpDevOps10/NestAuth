@@ -31,6 +31,7 @@ describe('AppController (e2e)', () => {
       password: 'super-secure-password',
     };
 
+    let tokens: Token;
 
     it('should signup', () => {
       return request(app.getHttpServer())
@@ -40,6 +41,19 @@ describe('AppController (e2e)', () => {
         .expect(({ body }: { body: Token }) => {
           expect(body.access_token).toBeTruthy();
           expect(body.refresh_token).toBeTruthy();
+        });
+    });
+
+    it('should signin', () => {
+      return request(app.getHttpServer())
+        .post('/auth/local/signin')
+        .send(dto)
+        .expect(200)
+        .expect(({ body }: { body: Token }) => {
+          expect(body.access_token).toBeTruthy();
+          expect(body.refresh_token).toBeTruthy();
+
+          tokens = body;
         });
     });
   });
