@@ -20,7 +20,7 @@ describe('AppController (e2e)', () => {
     await app.init();
 
     prisma = app.get<PrismaService>(PrismaService);
-    await prisma.cleanDatabase();
+    //await prisma.cleanDatabase();
   });
 
   afterAll(async () => await app.close());
