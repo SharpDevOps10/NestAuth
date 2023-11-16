@@ -39,5 +39,11 @@ describe('TodoService', () => {
       expect(todo.description).toBe(dto.description);
       expect(todo.status).toBe(TodoStatus.OPEN);
     });
+    it('should throw on duplicate title', async () => {
+      await service
+        .createTodo(userId, dto)
+        .then((todo) => expect(todo).toBeUndefined())
+        .catch((error) => expect(error.status).toBe(403));
+    });
   });
 });
