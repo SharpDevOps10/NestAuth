@@ -1,18 +1,36 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoService } from '../todo.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { AppModule } from '../../app.module';
+import { CreateTodoDto } from '../dto';
 
 describe('TodoService', () => {
   let service: TodoService;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TodoService],
+      imports: [AppModule],
     }).compile();
+    prisma = module.get(PrismaService);
 
     service = module.get<TodoService>(TodoService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('createTodo()', () => {
+    let userId: number;
+    const dto: CreateTodoDto = {
+      title: 'First todo',
+      description: 'First todo description',
+    };
+    it('should create user', async () => {
+      const user = await prisma.user.create({
+        data: {
+          email: 'john@gmail.com',
+          hash: '',
+        },
+      });
+      userId = user.id;
+    });
   });
 });
