@@ -7,7 +7,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 @Injectable()
 export class TodoService {
   constructor (private prisma: PrismaService) {}
-  createTodo (userId: number, dto: CreateTodoDto): Promise<Todo> {
+  async createTodo (userId: number, dto: CreateTodoDto): Promise<Todo> {
     return this.prisma.todo
       .create({
         data: {
