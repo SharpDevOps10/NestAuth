@@ -3,6 +3,7 @@ import { TodoService } from '../todo.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AppModule } from '../../app.module';
 import { CreateTodoDto } from '../dto';
+import { TodoStatus } from '.prisma/client';
 
 describe('TodoService', () => {
   let service: TodoService;
@@ -31,6 +32,12 @@ describe('TodoService', () => {
         },
       });
       userId = user.id;
+    });
+    it('should create todo', async () => {
+      const todo = await service.createTodo(userId, dto);
+      expect(todo.title).toBe(dto.title);
+      expect(todo.description).toBe(dto.description);
+      expect(todo.status).toBe(TodoStatus.OPEN);
     });
   });
 });
