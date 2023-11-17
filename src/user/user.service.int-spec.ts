@@ -1,9 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../app.module';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from './user.service';
 
-class UserService {
-}
 
 describe('UserService Int', () => {
   let prisma: PrismaService;
@@ -19,6 +18,10 @@ describe('UserService Int', () => {
     await prisma.cleanDatabase();
   });
 
-  describe('createUser()', () => {
+  describe('createUser()', async () => {
+    const user = await userService.createUser(
+      'john@skynet.com',
+    );
+    expect(user.email).toBe('john@skynet.com');
   });
 });
