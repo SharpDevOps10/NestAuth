@@ -18,8 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:restart": "docker compose down && docker compose up -d && sleep 1",
-    "pretest:int": "yarn db:restart && dotenv -e .env.test -- prisma migrate reset --force",
+    "db:restart": "sudo docker-compose down && sudo docker-compose up -d && sleep 1",
+    "pretest:int": "npm run db:restart && dotenv -e .env.test -- prisma migrate reset --force",
     "test:int": "dotenv -e .env.test -- jest -i --no-cache --watch --config jest-int.json"
   },
   "dependencies": {
