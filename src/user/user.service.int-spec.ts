@@ -19,9 +19,16 @@ describe('UserService Int', () => {
   });
 
   describe('createUser()', async () => {
-    const user = await userService.createUser(
-      'john@skynet.com',
-    );
-    expect(user.email).toBe('john@skynet.com');
+    it('should create user', async () => {
+      const user = await userService.createUser('john@gmail.com',);
+      expect(user.email).toBe('john@gmail.com');
+    });
+    it('should throw on duplicate email', async () => {
+      try {
+        await userService.createUser('john@gmail.com');
+      } catch (error) {
+        expect(error.status).toBe(403);
+      }
+    });
   });
 });
