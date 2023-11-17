@@ -6,7 +6,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class UserService {
   constructor (private prisma: PrismaService) {}
 
-  createUser (email: string) {
+  async createUser (email: string) {
     return this.prisma.user
       .create({
         data: {

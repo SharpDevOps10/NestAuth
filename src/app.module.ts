@@ -7,9 +7,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './common/guards';
 import { ConfigModule } from '@nestjs/config';
 import { TodoModule } from './todo/todo.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, PrismaModule, TodoModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, PrismaModule, TodoModule, UserModule],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: AccessTokenGuard }],
 })
